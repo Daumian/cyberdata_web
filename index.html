@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberData | Toma de Decisiones Inteligentes</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron para títulos (futurista) y Rajdhani para texto (limpio, tech) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyber-dark': '#070b14',
+                        'cyber-card': '#0d1323',
+                        'neon-cyan': '#00f3ff',
+                        'neon-green': '#00ff66',
+                    },
+                    fontFamily: {
+                        'display': ['Orbitron', 'sans-serif'],
+                        'body': ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Efectos Neón y Cyberpunk Personalizados */
+        body {
+            background-color: #070b14;
+            color: #ffffff;
+            /* Patrón de cuadrícula sutil de fondo */
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .text-glow-cyan {
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.7), 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .text-glow-green {
+            text-shadow: 0 0 5px rgba(0, 255, 102, 0.7), 0 0 10px rgba(0, 255, 102, 0.5);
+        }
+
+        .border-glow-cyan {
+            border-color: #00f3ff;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2), inset 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+
+        .border-glow-green {
+            border-color: #00ff66;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2), inset 0 0 10px rgba(0, 255, 102, 0.1);
+        }
+
+        /* Botón animado */
+        .cyber-btn {
+            position: relative;
+            background: transparent;
+            border: 2px solid #00f3ff;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3), inset 0 0 15px rgba(0, 243, 255, 0.1);
+        }
+
+        .cyber-btn:hover {
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.6), inset 0 0 20px rgba(0, 243, 255, 0.4);
+            text-shadow: 0 0 8px #00f3ff;
+        }
+
+        /* SVG Glow Elements */
+        .svg-glow-cyan {
+            filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.8));
+        }
+        .svg-glow-green {
+            filter: drop-shadow(0 0 8px rgba(0, 255, 102, 0.8));
+        }
+
+        /* Trazos de circuito laterales decorativos */
+        .circuit-line-left, .circuit-line-right {
+            position: absolute;
+            top: 10%;
+            bottom: 10%;
+            width: 2px;
+            background: #00f3ff;
+            box-shadow: 0 0 10px #00f3ff;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        .circuit-line-left { left: 5%; }
+        .circuit-line-right { right: 5%; background: #00ff66; box-shadow: 0 0 10px #00ff66;}
+        
+        @media (max-width: 768px) {
+            .circuit-line-left, .circuit-line-right { display: none; }
+        }
+
+        /* Logo personalizado CSS */
+        .logo-container {
+            display: inline-block;
+            position: relative;
+            padding: 10px 40px;
+            border-top: 3px solid #00f3ff;
+            border-bottom: 3px solid #00ff66;
+        }
+        .logo-container::before, .logo-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            top: 0;
+        }
+        .logo-container::before {
+            left: -10px;
+            border-left: 3px solid #00f3ff;
+            border-top: 3px solid #00f3ff;
+            border-bottom: 3px solid #00ff66;
+            transform: skew(-20deg);
+        }
+        .logo-container::after {
+            right: -10px;
+            border-right: 3px solid #00ff66;
+            border-top: 3px solid #00f3ff;
+            border-bottom: 3px solid #00ff66;
+            transform: skew(20deg);
+        }
+    </style>
+</head>
+<body class="font-body relative min-h-screen">
+
+    <!-- Decoración de fondo -->
+    <div class="circuit-line-left"></div>
+    <div class="circuit-line-right"></div>
+
+    <!-- Navegación -->
+    <nav class="w-full border-b border-white/10 bg-cyber-dark/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-neon-cyan font-display font-bold tracking-widest text-xl">CD</div>
+            <div class="hidden md:flex space-x-8 text-sm uppercase tracking-wider font-semibold text-gray-300">
+                <a href="#servicios" class="hover:text-neon-cyan transition-colors">Servicios</a>
+                <a href="#clientes" class="hover:text-neon-green transition-colors">Clientes Ideales</a>
+                <a href="#precios" class="hover:text-neon-cyan transition-colors">Precios</a>
+                <a href="#contacto" class="hover:text-white transition-colors">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="max-w-5xl mx-auto px-4 py-20 text-center flex flex-col items-center">
+        
+        <!-- CSS Logo -->
+        <div class="logo-container mb-8">
+            <h1 class="font-display font-black text-5xl md:text-6xl tracking-widest">
+                <span class="text-white text-glow-cyan">CYBER</span><span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-green" style="-webkit-text-stroke: 1px #00ff66;">DATA</span>
+            </h1>
+        </div>
+
+        <p class="font-body text-gray-300 text-lg md:text-xl max-w-3xl mb-4 italic">
+            "De nada sirve la ambición sin visión para iniciar un negocio... Nosotros te ayudamos al control y gestión de tus datos, más automatizar tu proceso para impulsar tu proyecto."
+        </p>
+
+        <h2 class="font-display text-2xl md:text-4xl font-bold text-white mt-8 mb-12 uppercase tracking-wide text-glow-cyan">
+            Potenciamos tu negocio con <span class="text-neon-green text-glow-green">Datos Inteligentes</span>
+        </h2>
+    </header>
+
+    <!-- Servicios Principales -->
+    <section id="servicios" class="max-w-6xl mx-auto px-4 py-12">
+        <div class="grid md:grid-cols-2 gap-10">
+            
+            <!-- Columna Análisis -->
+            <div class="bg-cyber-card p-8 rounded-xl border border-glow-cyan relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/10 rounded-full blur-3xl group-hover:bg-neon-cyan/20 transition-all duration-500"></div>
+                
+                <h3 class="font-display text-2xl text-neon-cyan mb-6 text-center tracking-widest">ANÁLISIS DE DATOS</h3>
+                
+                <!-- Icono SVG -->
+                <div class="flex justify-center mb-8 svg-glow-cyan">
+                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#00f3ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                        <polyline points="4 10 8 6 12 10 16 6 20 10"></polyline>
+                        <line x1="4" y1="14" x2="20" y2="14"></line>
+                    </svg>
+                </div>
+
+                <ul class="space-y-4 text-gray-300 font-body text-lg">
+                    <li class="flex items-start">
+                        <span class="text-neon-cyan mr-2">▹</span> Análisis de mercado internacional (¿Dónde conviene exportar?)
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-neon-cyan mr-2">▹</span> Estrategias de posicionamiento y marketing Data-Driven
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-neon-cyan mr-2">▹</span> Reportes personalizados y Dashboards en Looker Studio/Power BI
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-neon-cyan mr-2">▹</span> Identificación de marca y Buyer Persona
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Columna Automatización -->
+            <div class="bg-cyber-card p-8 rounded-xl border border-glow-green relative overflow-hidden group">
+                 <div class="absolute top-0 left-0 w-32 h-32 bg-neon-green/10 rounded-full blur-3xl group-hover:bg-neon-green/20 transition-all duration-500"></div>
+
+                <h3 class="font-display text-2xl text-neon-green mb-6 text-center tracking-widest">AUTOMATIZACIÓN DE PROCESOS</h3>
+                
+                <!-- Icono SVG -->
+                <div class="flex justify-center mb-8 svg-glow-green">
+                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#00ff66" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </div>
+
+                <ul class="space-y-4 text-gray-300 font-body text-lg">
+                    <li class="flex items-start">
+                        <span class="text-neon-green mr-2">▹</span> Agendar automáticamente clientes
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-neon-green mr-2">▹</span> Alertas de inventario y predicción de gastos semanales
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-neon-green mr-2">▹</span> Control de stock y optimización
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-neon-green mr-2">▹</span> Scripts de integración (Slack, Email) para reportes
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clientes Ideales -->
+    <section id="clientes" class="max-w-5xl mx-auto px-4 py-16 text-center">
+        <h3 class="font-display text-2xl md:text-3xl font-bold mb-12 tracking-wider">CLIENTES <span class="text-white text-glow-cyan">IDEALES</span></h3>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="flex flex-col items-center">
+                <svg class="w-16 h-16 text-neon-cyan mb-4 svg-glow-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span class="font-display text-lg">Retail / E-commerce</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg class="w-16 h-16 text-neon-green mb-4 svg-glow-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                <span class="font-display text-lg">Restaurantes</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg class="w-16 h-16 text-neon-cyan mb-4 svg-glow-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                <span class="font-display text-lg">Manufactura / Logística</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <svg class="w-16 h-16 text-neon-green mb-4 svg-glow-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                <span class="font-display text-lg">Salud y Clínicas</span>
+            </div>
+        </div>
+        
+        <!-- Flecha de flujo -->
+        <div class="flex justify-center my-10 text-gray-500">
+            <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </section>
+
+    <!-- Modalidades de Pago -->
+    <section id="precios" class="max-w-4xl mx-auto px-4 py-8">
+        <h3 class="font-display text-2xl md:text-3xl font-bold mb-10 text-center tracking-wider">MODALIDADES DE <span class="text-white text-glow-green">PAGO</span></h3>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Opción 1 -->
+            <div class="flex items-start bg-white/5 p-6 rounded-lg border border-white/10 hover:border-neon-cyan transition-colors">
+                <div class="text-neon-cyan mr-4">
+                    <svg class="w-10 h-10 svg-glow-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold text-xl mb-2 text-white">Por Resultado (% Ahorro)</h4>
+                    <p class="text-gray-400 text-sm font-body">Ideal para clientes que quieren pagar solo si logran exportar. % del ahorro o ganancia generada (ej: 5-10% del costo logístico reducido o exportación concretada).</p>
+                </div>
+            </div>
+
+            <!-- Opción 2 -->
+            <div class="flex items-start bg-white/5 p-6 rounded-lg border border-white/10 hover:border-neon-green transition-colors">
+                <div class="text-neon-green mr-4">
+                    <svg class="w-10 h-10 svg-glow-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold text-xl mb-2 text-white">Suscripción Mensual</h4>
+                    <p class="text-gray-400 text-sm font-body">Análisis continuo, mantenimiento, soporte, ajustes y reportes personalizados recurrentes. Para un control total y permanente.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16 text-center">
+            <button class="cyber-btn font-display font-bold text-lg px-8 py-4 rounded font-display tracking-widest">
+                AGENDA UNA REUNIÓN
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer / Contacto -->
+    <footer id="contacto" class="border-t border-white/10 mt-20 pt-12 pb-8 bg-black/50">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            
+            <div class="text-center md:text-left">
+                <h4 class="font-display text-white text-xl font-bold tracking-widest mb-1">CONTACTO</h4>
+                <p class="text-gray-500 text-sm mb-4">Tus datos reflejan tus resultados. Nosotros los elevamos.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-12">
+                <!-- Perfil Anita -->
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded bg-gradient-to-br from-neon-cyan to-blue-900 flex items-center justify-center font-display font-bold text-xl">A</div>
+                    <div>
+                        <p class="font-display font-bold text-white tracking-wider">ANITA</p>
+                        <p class="text-neon-cyan text-xs uppercase tracking-widest mb-1">Legal & Strategy</p>
+                        <div class="flex gap-2 text-gray-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg> <!-- Legal -->
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg> <!-- Mktg -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hidden md:block w-px bg-white/20 h-12"></div>
+
+                <!-- Perfil Damian -->
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded bg-gradient-to-br from-neon-green to-green-900 flex items-center justify-center font-display font-bold text-xl text-black">D</div>
+                    <div>
+                        <p class="font-display font-bold text-white tracking-wider">DAMIAN</p>
+                        <p class="text-neon-green text-xs uppercase tracking-widest mb-1">Data & Tech</p>
+                        <div class="flex gap-2 text-gray-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg> <!-- SQL/DB -->
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> <!-- Data -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-xs text-gray-600 mt-12 font-body">
+            &copy; 2026 CyberData. Todos los derechos reservados.
+        </div>
+    </footer>
+
+</body>
+</html>
